@@ -1,0 +1,58 @@
+:root{
+    --border-radius: 20px;
+    --margin-sm: 5px;
+    --margin-lg: 10px;
+    --padding-lg: 10px;
+}
+
+.container{
+    width: 500px;
+    height: fit-content;
+    margin: 100px auto;
+}
+
+.display {
+    height: 50px;
+    border: 1px solid gray;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--margin-lg);
+    padding: var(--padding-lg);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--margin-sm);
+    justify-content: center;
+}
+
+.col {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+}
+
+.btn:active {
+    transform: scale(0.9);
+    opacity: 0.9;
+}
+
+.btn{
+    background-color: aliceblue;
+}
+
+.btn-remove {
+    background-color: rgb(87, 86, 86);
+    color: white;
+}
+
+
+.row .btn-operator, #percentage {
+    background-color: rgba(127, 178, 255, 0.5);
+}
