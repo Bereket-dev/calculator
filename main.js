@@ -2,27 +2,35 @@ const numbers = document.querySelectorAll(".btn-number");
 const operators = document.querySelectorAll(".btn-operator");
 const display = document.querySelector(".display");
 const removeBtn = document.querySelector(".btn-remove");
+const clearBtn = document.querySelector(".btn-clear");
 
 const percentage = document.getElementById("percentage");
 
 let operation = [];
 let result = 0;
 
+display.innerText = "0"; //default
+
 numbers.forEach((number) => {
   number.addEventListener("click", (e) => {
     const last = operation[operation.length - 1];
     let element = e.target.innerText;
-    if (isNaN(Number(element)) && element !== ".") return;
+    const isNum = !isNaN(Number(element));
+    if (!isNum && element !== ".") return;
 
     if (operation.length > 0) {
-      if (!isNaN(last) && element !== ".") {
+      if (
+        last === "-" &&
+        isNaN(Number(operation[operation.length - 2])) &&
+        isNum &&
+        operation[operation.length - 2] !== ")"
+      ) {
+        let newElement = `${last}${element}`;
+        operation.splice(operation.length - 1, 2, Number(newElement));
+      } else if (!isNaN(last) && element !== ".") {
         let newElement = `${operation[operation.length - 1]}${element}`;
         operation[operation.length - 1] = Number(newElement);
-      } else if (
-        typeof last == "string" &&
-        last[-1] === "." &&
-        isNaN(Number(element))
-      ) {
+      } else if (typeof last == "string" && last[-1] === "." && isNum) {
         let newElement = `${operation[operation.length - 1]}${Number(element)}`;
         operation[operation.length - 1] = Number(newElement);
       } else if (
@@ -39,7 +47,7 @@ numbers.forEach((number) => {
       operation.push(element === "." ? "0." : Number(element));
     }
 
-    displayOperation();
+      displayOperation();
   });
 });
 
@@ -47,9 +55,9 @@ operators.forEach((operator) => {
   operator.addEventListener("click", (e) => {
     const last = operation[operation.length - 1];
     let oper = e.target.innerText;
-    if (oper != "(" && oper != ")" && oper != "%") {
-      if (!display.innerText) return;
-      if (isOperator(last) || last == ")") {
+    if (oper != "(" && oper != ")") {
+      if (operation.length === 0 && oper !== "-") return;
+      if (isOperator(last)) {
         operation[operation.length - 1] = oper;
         displayOperation();
         return;
@@ -58,7 +66,7 @@ operators.forEach((operator) => {
 
     operation.push(oper);
 
-    displayOperation();
+      displayOperation();
   });
 });
 
@@ -75,12 +83,21 @@ removeBtn.addEventListener("click", () => {
   displayOperation();
 });
 
+clearBtn.addEventListener("click", () => {
+  operation.length = 0;
+  displayOperation();
+});
+
 function displayOperation() {
+  if (operation.length == 0) {
+    display.innerText = "0";
+    return;
+  }
   display.innerHTML = operation.join(" ");
 }
 
 function isOperator(ele) {
-  return ele == "*" || ele == "/" || ele == "+" || ele == "-" || ele == "%";
+  return ele == "×" || ele == "÷" || ele == "+" || ele == "-" || ele == "%";
 }
 
 function equalTo() {
@@ -88,6 +105,7 @@ function equalTo() {
   if (operation.length < 2 && typeof last == "number") operation.pop();
   let itr = 20;
   while (operation.includes("(") && itr-- > 0) {
+    if (!operation.includes(")")) return;
     parethesisCal(operation, calculation);
   }
   calculation(operation);
@@ -97,10 +115,10 @@ function equalTo() {
   } else {
     displayOperation();
   }
+
 }
 
 function parethesisCal(array, callback) {
-  if (!array.includes(")")) return;
   let index1 = array.indexOf("("),
     index2 = array.indexOf(")");
   let newOperation = array.slice(index1 + 1, index2);
@@ -163,8 +181,9 @@ const sigPrecision = (newArray, myIndex, newresult, isPercentage) => {
 function calculation(array) {
   const myLast = array[array.length - 1];
   let isPercentage = false;
-  while (array.includes("*") && myLast != "*") {
-    let index = array.indexOf("*");
+
+  while (array.includes("×") && myLast != "×") {
+    let index = array.indexOf("×");
     result = array[index - 1] * array[index + 1];
 
     result = sigPrecision(array, index, result, isPercentage);

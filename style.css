@@ -3,6 +3,9 @@
     --margin-sm: 5px;
     --margin-lg: 10px;
     --padding-lg: 10px;
+    --padding-sm: 5px;
+    --fs-lg: 30px;
+    --fs-sm: 20px;
 }
 
 .container{
@@ -11,16 +14,36 @@
     margin: 100px auto;
 }
 
-.display {
-    height: 50px;
+.display-container {
     border: 1px solid gray;
     border-radius: var(--border-radius);
     margin-bottom: var(--margin-lg);
-    padding: var(--padding-lg);
+}
+
+.display {
     display: flex;
     justify-content: end;
     align-items: center;
+    padding: var(--padding-lg);
+    font-size: var(--fs-lg);
 }
+
+.btn-remove {
+    background-color: rgb(87, 86, 86);
+    color: white;
+    padding: var(--padding-lg) var(--padding-sm);
+    height: 10px;
+    display: flex;
+    justify-self: end;
+    align-items: center;
+    font-size: var(--fs-lg);
+    margin: 10px;
+}
+
+.row .btn-clear {
+    background-color: rgb(105, 103, 103);
+}
+
 
 .row {
     display: grid;
@@ -36,6 +59,7 @@
     justify-content: center;
     align-items: center;
     border-radius: var(--border-radius);
+    font-size: var(--fs-sm);
 }
 
 .btn:active {
@@ -45,11 +69,6 @@
 
 .btn{
     background-color: aliceblue;
-}
-
-.btn-remove {
-    background-color: rgb(87, 86, 86);
-    color: white;
 }
 
 
