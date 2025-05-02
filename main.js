@@ -152,8 +152,8 @@ function parethesisCal(array, callback) {
     index1 + arrayLength + 2 < array.length
       ? array[index1 + arrayLength + 2]
       : null;
-  if (typeof beforePar == "number") replacement.unshift("*");
-  if (typeof afterPar == "number") replacement.push("*");
+  if (typeof beforePar == "number") replacement.unshift("×");
+  if (typeof afterPar == "number") replacement.push("×");
   array.splice(index1, arrayLength + 2, ...replacement);
 }
 const sigPrecision = (newArray, myIndex, newresult, isPercentage) => {
