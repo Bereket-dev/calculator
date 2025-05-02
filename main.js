@@ -22,11 +22,14 @@ numbers.forEach((number) => {
       if (
         last === "-" &&
         isNaN(Number(operation[operation.length - 2])) &&
-        isNum &&
-        operation[operation.length - 2] !== ")"
+        isNum
       ) {
         let newElement = `${last}${element}`;
-        operation.splice(operation.length - 1, 2, Number(newElement));
+        if (operation[operation.length - 2] === ")") {
+          operation.splice(operation.length - 1, 2, "+", Number(newElement));
+        } else {
+          operation.splice(operation.length - 1, 2, Number(newElement));
+        }
       } else if (!isNaN(last) && element !== ".") {
         let newElement = `${operation[operation.length - 1]}${element}`;
         operation[operation.length - 1] = Number(newElement);
@@ -47,7 +50,7 @@ numbers.forEach((number) => {
       operation.push(element === "." ? "0." : Number(element));
     }
 
-      displayOperation();
+    displayOperation();
   });
 });
 
@@ -66,7 +69,7 @@ operators.forEach((operator) => {
 
     operation.push(oper);
 
-      displayOperation();
+    displayOperation();
   });
 });
 
@@ -115,7 +118,6 @@ function equalTo() {
   } else {
     displayOperation();
   }
-
 }
 
 function parethesisCal(array, callback) {
